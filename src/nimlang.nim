@@ -2180,66 +2180,72 @@ when defined emscripten:
   #     json["evalError"] = %*{"msg": e.msg}
   #     return cstring $json
 
-  proc runCodeWasm*(s: string): string =
-    let json = JsonNode(kind: JObject)
-    json["tokenizerError"] = nil
-    json["parserErrors"] = nil
-    json["parserCriticalError"] = nil
-    json["resolverError"] = nil
-    json["resolverWarnings"] = nil
-    json["evalError"] = nil
-    json["evalResult"] = nil
+  proc runCodeWasm*(s: string) =
+    # let json = JsonNode(kind: JObject)
+    # json["tokenizerError"] = nil
+    # json["parserErrors"] = nil
+    # json["parserCriticalError"] = nil
+    # json["resolverError"] = nil
+    # json["resolverWarnings"] = nil
+    # json["evalError"] = nil
+    # json["evalResult"] = nil
 
     let tokens =
       try:
         let s = s
         # dump s
-        echo "Tokenizing..."
+        # echo "Tokenizing..."
         tokenize(s)
       except TokenizerError as e:
         echo "Tokenizer error: " & e.msg
-        json["tokenizerError"] = %*{"msg": e.msg}
-        return $json
+        # json["tokenizerError"] = %*{"msg": e.msg}
+        return
 
     let p = Parser(tokens: tokens)
 
     let ast =
       try:
-        echo "Parsing..."
+        # echo "Parsing..."
         p.parse()
       except ParseError as e:
         echo "Parser error: " & e.msg
-        json["parserErrors"] = %*p.errors
-        json["parserCriticalError"] = %*{"msg": e.msg}
-        return $json
+        # json["parserErrors"] = %*p.errors
+        # json["parserCriticalError"] = %*{"msg": e.msg}
+        return
 
-    json["parserErrors"] = %*p.errors
+    if p.errors != @[]:
+      for err in p.errors:
+        stderr.writeLine err
+      return
 
     let vm = newVm()
 
     let resolver = Resolver(vm: vm)
     try:
-      echo "Resolving..."
+      # echo "Resolving..."
       resolver.resolve ast
     except ResolverError as e:
-      echo "Resolver error: " & e.msg
-      json["resolverError"] = %*{"msg": e.msg}
-      json["resolverWarnings"] = %*resolver.warnings
-      return $json
+      stderr.writeLine e.msg
+      # json["resolverError"] = %*{"msg": e.msg}
+      # json["resolverWarnings"] = %*resolver.warnings
+      return
 
-    json["resolverWarnings"] = %*resolver.warnings
+    # json["resolverWarnings"] = %*resolver.warnings
+    if resolver.warnings != @[]:
+      for warn in resolver.warnings:
+        stderr.writeLine warn
 
     try:
-      echo "Evaluating..."
+      # echo "Evaluating..."
       discard vm.eval ast
       # echo "Eval result: " & $evalResult
       # json["evalResult"] = %*evalResult
-      return $json
+      return
     except EvalError as e:
-      echo "Eval error: " & e.msg
-      json["evalError"] = %*{"msg": e.msg}
-      return $json
+      stdout.writeLine e.msg
+      # json["evalError"] = %*{"msg": e.msg}
+      # return $json
 
   when isMainModule:
     # echo "The lox file was loaded"
-    echo runCodeWasm(paramStr(1))
+    runCodeWasm(paramStr(1))

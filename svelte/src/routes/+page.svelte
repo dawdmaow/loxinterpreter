@@ -30,8 +30,12 @@
 	});
 	term.loadAddon(fitAddon);
 
-	function write(data: string) {
-		term.write(data);
+	function writeLine(data: string) {
+		term.write(data + '\r\n');
+	}
+
+	function writeErrorLine(data: string) {
+		term.write('\x1b[31m' + data + '\x1b[0m' + '\r\n');
 	}
 
 	function xterm(node: HTMLDivElement) {
@@ -125,9 +129,22 @@
 
 		// Initialize editor with sample Lox code
 		const sampleCode = `// Lox language sample
-class Calculator {
+class Breakfast {
+    init() {
+        this.food = "eggs and bacon";
+    }
+
+    getResult() {
+        print "Eating:";
+        print this.food;
+    }
+}
+
+class Calculator < Breakfast {
   init() {
+    super.init();
     this.result = 0;
+    super.getResult();
   }
 
   add(value) {
@@ -145,10 +162,13 @@ class Calculator {
   }
 }
 
-// Create calculator and perform operations
+var time0 = clock();
 var calc = Calculator();
 calc.add(5).multiply(2).add(10);
-print calc.getResult(); // Prints: 20
+print "Calculator result:";
+print calc.getResult();
+print "Elapsed milliseconds:";
+print clock() - time0;
 `;
 
 		editor.setValue(sampleCode);
@@ -161,7 +181,8 @@ print calc.getResult(); // Prints: 20
 
 	function runCode() {
 		const code = editor.getValue();
-
+		term.clear();
+		writeLine('\x1b[34mRunning code...\x1b[0m');
 		(window as any).Module.callMain([code]);
 	}
 
@@ -170,9 +191,15 @@ print calc.getResult(); // Prints: 20
 		noInitialRun: true,
 		print: (...args: string[]) => {
 			console.log(...args);
+			for (const arg of args) {
+				writeLine(arg);
+			}
 		},
 		printErr: (...args: string[]) => {
 			console.error(...args);
+			for (const arg of args) {
+				writeErrorLine(arg);
+			}
 		}
 	};
 
