@@ -209,7 +209,7 @@ print clock() - time0;
 </script>
 
 <svelte:head>
-	<link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+	<link rel="stylesheet" href="xterm.css" />
 	<!-- <script src="/lox.js"></script> -->
 	<!-- <script src="/loxwasm.js"></script> -->
 	<style>

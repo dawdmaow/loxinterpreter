@@ -31,3 +31,8 @@ task wasm, "WASM Build":
   exec "nim c -d:emscripten src/nimlang.nim"
   cpFile "dist/loxwasm.js", "svelte/static/loxwasm.js"
   cpFile "dist/loxwasm.wasm", "svelte/static/loxwasm.wasm"
+
+task wasmRelease, "WASM Release Build":
+  exec "nim c -d:emscripten -d:release src/nimlang.nim"
+  cpFile "dist/loxwasm.js", "svelte/static/loxwasm.js"
+  cpFile "dist/loxwasm.wasm", "svelte/static/loxwasm.wasm"
