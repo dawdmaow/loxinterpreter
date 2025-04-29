@@ -1,0 +1,1156 @@
+### CODE ###
+123;
+### TOKENS ###
+[literal(integer, 123), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts 123)
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+123
+--------------------------------
+### CODE ###
+123 + 456;
+### TOKENS ###
+[literal(integer, 123), binary(+), literal(integer, 456), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (+ 123 456))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+579
+--------------------------------
+### CODE ###
+1 + 2 / 3;
+### TOKENS ###
+[literal(integer, 1), binary(+), literal(integer, 2), binary(/), literal(integer, 3), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (+ 1 (/ 2 3)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+1.6666666666666665
+--------------------------------
+### CODE ###
+1 / 2 + 3;
+### TOKENS ###
+[literal(integer, 1), binary(/), literal(integer, 2), binary(+), literal(integer, 3), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (+ (/ 1 2) 3))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+3.5
+--------------------------------
+### CODE ###
+1 + 2 / 3 * 4;
+### TOKENS ###
+[literal(integer, 1), binary(+), literal(integer, 2), binary(/), literal(integer, 3), binary(*), literal(integer, 4), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (+ 1 (/ 2 (* 3 4))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+1.1666666666666667
+--------------------------------
+### CODE ###
+* 1;
+### TOKENS ###
+[binary(*), literal(integer, 1), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (nil))
+### PARSER ERRORS ###
+@["Parse error at index 0: Binary operator has no left-hand side"]
+--------------------------------
+### CODE ###
+* /;
+### TOKENS ###
+[binary(*), binary(/), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (nil))
+### PARSER ERRORS ###
+@["Parse error at index 0: Binary operator has no left-hand side", "Parse error at index 2: Binary operator has no left-hand side"]
+--------------------------------
+### CODE ###
+"foobar";
+### TOKENS ###
+[literal(string, "foobar"), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts "foobar")
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+"foobar"
+--------------------------------
+### CODE ###
+"foo" & "bar";
+### TOKENS ###
+[literal(string, "foo"), binary(&), literal(string, "bar"), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (& "foo" "bar"))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+"foobar"
+--------------------------------
+### CODE ###
+print "666";
+### TOKENS ###
+[keyword(print), literal(string, "666"), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (print "666"))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"666"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+print "666"; 777;
+### TOKENS ###
+[keyword(print), literal(string, "666"), token(';'), literal(integer, 777), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (print "666") 777)
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"666"
+### RESULT ###
+777
+--------------------------------
+### CODE ###
+print 1 + 2;
+### TOKENS ###
+[keyword(print), literal(integer, 1), binary(+), literal(integer, 2), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (print (+ 1 2)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+3
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+var x = 1;
+### TOKENS ###
+[keyword(var), ident(x), token('='), literal(integer, 1), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var x 1))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+var x = 1; x;
+### TOKENS ###
+[keyword(var), ident(x), token('='), literal(integer, 1), token(';'), ident(x), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var x 1) (ident x))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+1
+--------------------------------
+### CODE ###
+var x = 1; x + 2;
+### TOKENS ###
+[keyword(var), ident(x), token('='), literal(integer, 1), token(';'), ident(x), binary(+), literal(integer, 2), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var x 1) (+ (ident x) 2))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+3
+--------------------------------
+### CODE ###
+var x = 1; x = 123; print x;
+### TOKENS ###
+[keyword(var), ident(x), token('='), literal(integer, 1), token(';'), ident(x), token('='), literal(integer, 123), token(';'), keyword(print), ident(x), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var x 1) (asgn (ident x) 123) (print (ident x)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+123
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  {
+    var x = 1;
+    print x;
+  }
+  
+### TOKENS ###
+[token('{'), keyword(var), ident(x), token('='), literal(integer, 1), token(';'), keyword(print), ident(x), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (block (var x 1) (print (ident x))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+1
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  var x = 2;
+  var y = 0;
+  {
+    var x = 1;
+    y = 1337;
+    print x;
+  }
+  print x;
+  print y;
+  
+### TOKENS ###
+[keyword(var), ident(x), token('='), literal(integer, 2), token(';'), keyword(var), ident(y), token('='), literal(integer, 0), token(';'), token('{'), keyword(var), ident(x), token('='), literal(integer, 1), token(';'), ident(y), token('='), literal(integer, 1337), token(';'), keyword(print), ident(x), token(';'), token('}'), keyword(print), ident(x), token(';'), keyword(print), ident(y), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var x 2) (var y 0) (block (var x 1) (asgn (ident y) 1337) (print (ident x))) (print (ident x)) (print (ident y)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+1
+2
+1337
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  var a = true;
+  var b = false;
+  if (a) {
+    print "a is true";
+  } else {
+    print "a is false";
+  }
+  if (b) {
+    print "b is true";
+  } else {
+    print "b is false";
+  }
+  
+### TOKENS ###
+[keyword(var), ident(a), token('='), literal(boolean, true), token(';'), keyword(var), ident(b), token('='), literal(boolean, false), token(';'), keyword(if), token('('), ident(a), token(')'), token('{'), keyword(print), literal(string, "a is true"), token(';'), token('}'), keyword(else), token('{'), keyword(print), literal(string, "a is false"), token(';'), token('}'), keyword(if), token('('), ident(b), token(')'), token('{'), keyword(print), literal(string, "b is true"), token(';'), token('}'), keyword(else), token('{'), keyword(print), literal(string, "b is false"), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var a true) (var b false) (if (ident a) (block (print "a is true")) (else (block (print "a is false")))) (if (ident b) (block (print "b is true")) (else (block (print "b is false")))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"a is true"
+"b is false"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  print true and true;
+  print true and false;
+  print false and true;
+  print false and false;
+
+  print true or true;
+  print true or false;
+  print false or true;
+  print false or false;
+  
+### TOKENS ###
+[keyword(print), literal(boolean, true), binary(and), literal(boolean, true), token(';'), keyword(print), literal(boolean, true), binary(and), literal(boolean, false), token(';'), keyword(print), literal(boolean, false), binary(and), literal(boolean, true), token(';'), keyword(print), literal(boolean, false), binary(and), literal(boolean, false), token(';'), keyword(print), literal(boolean, true), binary(or), literal(boolean, true), token(';'), keyword(print), literal(boolean, true), binary(or), literal(boolean, false), token(';'), keyword(print), literal(boolean, false), binary(or), literal(boolean, true), token(';'), keyword(print), literal(boolean, false), binary(or), literal(boolean, false), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (print (and true true)) (print (and true false)) (print (and false true)) (print (and false false)) (print (or true true)) (print (or true false)) (print (or false true)) (print (or false false)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+true
+false
+false
+false
+true
+true
+true
+false
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  var i = 1;
+  while (i <= 5) {
+    print i;
+    i = i + 1;
+  }
+  
+### TOKENS ###
+[keyword(var), ident(i), token('='), literal(integer, 1), token(';'), keyword(while), token('('), ident(i), binary(<=), literal(integer, 5), token(')'), token('{'), keyword(print), ident(i), token(';'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var i 1) (while (<= (ident i) 5) (block (print (ident i)) (asgn (ident i) (+ (ident i) 1)))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+1
+2
+3
+4
+5
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  for (var i = 1; i <= 5; i = i + 1) {
+    print i;
+  }
+  
+### TOKENS ###
+[keyword(for), token('('), keyword(var), ident(i), token('='), literal(integer, 1), token(';'), ident(i), binary(<=), literal(integer, 5), token(';'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(')'), token('{'), keyword(print), ident(i), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (block (var i 1) (while (<= (ident i) 5) (block (block (print (ident i))) (asgn (ident i) (+ (ident i) 1))))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+1
+2
+3
+4
+5
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  var i = 1;
+  while (true) {
+    if (i > 5) {
+      break;
+    }
+    print i;
+    i = i + 1;
+  }
+  
+### TOKENS ###
+[keyword(var), ident(i), token('='), literal(integer, 1), token(';'), keyword(while), token('('), literal(boolean, true), token(')'), token('{'), keyword(if), token('('), ident(i), binary(>), literal(integer, 5), token(')'), token('{'), keyword(break), token(';'), token('}'), keyword(print), ident(i), token(';'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var i 1) (while true (block (if (> (ident i) 5) (block (break))) (print (ident i)) (asgn (ident i) (+ (ident i) 1)))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+1
+2
+3
+4
+5
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  print -1;
+  
+### TOKENS ###
+[keyword(print), minus, literal(integer, 1), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (print (- 1)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+-1
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  var i = -5;
+  while (i <= 5) {
+    if (i < 0) {
+      i = i + 1;
+      continue;
+    }
+    print i;
+    i = i + 1;
+  }
+  
+### TOKENS ###
+[keyword(var), ident(i), token('='), minus, literal(integer, 5), token(';'), keyword(while), token('('), ident(i), binary(<=), literal(integer, 5), token(')'), token('{'), keyword(if), token('('), ident(i), binary(<), literal(integer, 0), token(')'), token('{'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(';'), keyword(continue), token(';'), token('}'), keyword(print), ident(i), token(';'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var i (- 5)) (while (<= (ident i) 5) (block (if (< (ident i) 0) (block (asgn (ident i) (+ (ident i) 1)) (continue))) (print (ident i)) (asgn (ident i) (+ (ident i) 1)))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+0
+1
+2
+3
+4
+5
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  proc test() {
+  }
+  
+### TOKENS ###
+[keyword(proc), ident(test), token('('), token(')'), token('{'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc test () (block )))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  proc sayHi(first, last) {
+  }
+  
+### TOKENS ###
+[keyword(proc), ident(sayHi), token('('), ident(first), token(','), ident(last), token(')'), token('{'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc sayHi (first last) (block )))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  proc sayHi(first, last) {
+    print "Hi, " & first & " " & last & "!";
+  }
+  
+### TOKENS ###
+[keyword(proc), ident(sayHi), token('('), ident(first), token(','), ident(last), token(')'), token('{'), keyword(print), literal(string, "Hi, "), binary(&), ident(first), binary(&), literal(string, " "), binary(&), ident(last), binary(&), literal(string, "!"), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc sayHi (first last) (block (print (& (& (& (& "Hi, " (ident first)) " ") (ident last)) "!")))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  proc sayHi(first, last) {
+    print "Hi, " & first & " " & last & "!";
+  }
+
+  sayHi("Dear", "Reader");
+  
+### TOKENS ###
+[keyword(proc), ident(sayHi), token('('), ident(first), token(','), ident(last), token(')'), token('{'), keyword(print), literal(string, "Hi, "), binary(&), ident(first), binary(&), literal(string, " "), binary(&), ident(last), binary(&), literal(string, "!"), token(';'), token('}'), ident(sayHi), token('('), literal(string, "Dear"), token(','), literal(string, "Reader"), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc sayHi (first last) (block (print (& (& (& (& "Hi, " (ident first)) " ") (ident last)) "!")))) (call (ident sayHi) "Dear" "Reader"))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"Hi, Dear Reader!"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  proc foo() {
+    return 123;
+  }
+
+  print foo();
+  
+### TOKENS ###
+[keyword(proc), ident(foo), token('('), token(')'), token('{'), keyword(return), literal(integer, 123), token(';'), token('}'), keyword(print), ident(foo), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc foo () (block (return 123))) (print (call (ident foo))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+123
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+print 1 - 2;
+### TOKENS ###
+[keyword(print), literal(integer, 1), minus, literal(integer, 2), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (print (- 1 2)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+-1
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    proc fib(n) {
+      if (n <= 1) return n;
+      return fib(n - 2) + fib(n - 1);
+    }
+
+    for (var i = 0; i < 20; i = i + 1) {
+      print fib(i);
+    }
+  
+### TOKENS ###
+[keyword(proc), ident(fib), token('('), ident(n), token(')'), token('{'), keyword(if), token('('), ident(n), binary(<=), literal(integer, 1), token(')'), keyword(return), ident(n), token(';'), keyword(return), ident(fib), token('('), ident(n), minus, literal(integer, 2), token(')'), binary(+), ident(fib), token('('), ident(n), minus, literal(integer, 1), token(')'), token(';'), token('}'), keyword(for), token('('), keyword(var), ident(i), token('='), literal(integer, 0), token(';'), ident(i), binary(<), literal(integer, 20), token(';'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(')'), token('{'), keyword(print), ident(fib), token('('), ident(i), token(')'), token(';'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc fib (n) (block (if (<= (ident n) 1) (return (ident n))) (return (+ (call (ident fib) (- (ident n) 2)) (call (ident fib) (- (ident n) 1)))))) (block (var i 0) (while (< (ident i) 20) (block (block (print (call (ident fib) (ident i)))) (asgn (ident i) (+ (ident i) 1))))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+144
+233
+377
+610
+987
+1597
+2584
+4181
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    proc foo() {
+      var i = 123;
+      proc bar() {
+        print i;
+      }
+      bar();
+    }
+
+    foo();
+  
+### TOKENS ###
+[keyword(proc), ident(foo), token('('), token(')'), token('{'), keyword(var), ident(i), token('='), literal(integer, 123), token(';'), keyword(proc), ident(bar), token('('), token(')'), token('{'), keyword(print), ident(i), token(';'), token('}'), ident(bar), token('('), token(')'), token(';'), token('}'), ident(foo), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc foo () (block (var i 123) (proc bar () (block (print (ident i)))) (call (ident bar)))) (call (ident foo)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+123
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    proc makeCounter() {
+      var i = 0;
+      proc count() {
+        i = i + 1;
+        print i;
+      }
+
+      return count;
+    }
+
+    var counter = makeCounter();
+    counter();
+    counter();
+  
+### TOKENS ###
+[keyword(proc), ident(makeCounter), token('('), token(')'), token('{'), keyword(var), ident(i), token('='), literal(integer, 0), token(';'), keyword(proc), ident(count), token('('), token(')'), token('{'), ident(i), token('='), ident(i), binary(+), literal(integer, 1), token(';'), keyword(print), ident(i), token(';'), token('}'), keyword(return), ident(count), token(';'), token('}'), keyword(var), ident(counter), token('='), ident(makeCounter), token('('), token(')'), token(';'), ident(counter), token('('), token(')'), token(';'), ident(counter), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc makeCounter () (block (var i 0) (proc count () (block (asgn (ident i) (+ (ident i) 1)) (print (ident i)))) (return (ident count)))) (var counter (call (ident makeCounter))) (call (ident counter)) (call (ident counter)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+1
+2
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    proc callTwice(f) {
+      f();
+      f();
+    }
+
+    proc foo() {
+      print "foo";
+    }
+
+    callTwice(foo);
+  
+### TOKENS ###
+[keyword(proc), ident(callTwice), token('('), ident(f), token(')'), token('{'), ident(f), token('('), token(')'), token(';'), ident(f), token('('), token(')'), token(';'), token('}'), keyword(proc), ident(foo), token('('), token(')'), token('{'), keyword(print), literal(string, "foo"), token(';'), token('}'), ident(callTwice), token('('), ident(foo), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc callTwice (f) (block (call (ident f)) (call (ident f)))) (proc foo () (block (print "foo"))) (call (ident callTwice) (ident foo)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"foo"
+"foo"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    proc callTwice(f) {
+      f();
+      f();
+    }
+
+    callTwice(proc() {
+      print "foo";
+    });
+  
+### TOKENS ###
+[keyword(proc), ident(callTwice), token('('), ident(f), token(')'), token('{'), ident(f), token('('), token(')'), token(';'), ident(f), token('('), token(')'), token(';'), token('}'), ident(callTwice), token('('), keyword(proc), token('('), token(')'), token('{'), keyword(print), literal(string, "foo"), token(';'), token('}'), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc callTwice (f) (block (call (ident f)) (call (ident f)))) (call (ident callTwice) (lambda (block (print "foo")))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"foo"
+"foo"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    proc callWith123(f) {
+      f(123);
+    }
+
+    callWith123(proc(x) {
+      print x;
+    });
+  
+### TOKENS ###
+[keyword(proc), ident(callWith123), token('('), ident(f), token(')'), token('{'), ident(f), token('('), literal(integer, 123), token(')'), token(';'), token('}'), ident(callWith123), token('('), keyword(proc), token('('), ident(x), token(')'), token('{'), keyword(print), ident(x), token(';'), token('}'), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (proc callWith123 (f) (block (call (ident f) 123))) (call (ident callWith123) (lambdax (block (print (ident x))))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+123
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    var x = 1;
+    var y = 2;
+    var z = 3;
+    {
+      var xx = 1;
+      var yy = 2;
+      {
+        var zz = xx;
+        var aa = 123;
+        {
+          var bb = 456;
+          var cc = aa;
+        }
+      }
+    }
+    var result = y;
+  
+### TOKENS ###
+[keyword(var), ident(x), token('='), literal(integer, 1), token(';'), keyword(var), ident(y), token('='), literal(integer, 2), token(';'), keyword(var), ident(z), token('='), literal(integer, 3), token(';'), token('{'), keyword(var), ident(xx), token('='), literal(integer, 1), token(';'), keyword(var), ident(yy), token('='), literal(integer, 2), token(';'), token('{'), keyword(var), ident(zz), token('='), ident(xx), token(';'), keyword(var), ident(aa), token('='), literal(integer, 123), token(';'), token('{'), keyword(var), ident(bb), token('='), literal(integer, 456), token(';'), keyword(var), ident(cc), token('='), ident(aa), token(';'), token('}'), token('}'), token('}'), keyword(var), ident(result), token('='), ident(y), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (var x 1) (var y 2) (var z 3) (block (var xx 1) (var yy 2) (block (var zz (ident xx)) (var aa 123) (block (var bb 456) (var cc (ident aa))))) (var result (ident y)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  class Breakfast {
+    cook() {
+      print "Eggs a-fryin'!";
+    }
+
+    serve(who) {
+      print "Enjoy your breakfast, " + who + ".";
+    }
+  }
+
+  print Breakfast;
+  
+### TOKENS ###
+[keyword(class), ident(Breakfast), token('{'), ident(cook), token('('), token(')'), token('{'), keyword(print), literal(string, "Eggs a-fryin'!"), token(';'), token('}'), ident(serve), token('('), ident(who), token(')'), token('{'), keyword(print), literal(string, "Enjoy your breakfast, "), binary(+), ident(who), binary(+), literal(string, "."), token(';'), token('}'), token('}'), keyword(print), ident(Breakfast), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Breakfast (nil) (methods (proc cook () (block (print "Eggs a-fryin'!"))) (proc serve (who) (block (print (+ (+ "Enjoy your breakfast, " (ident who)) ".")))))) (print (ident Breakfast)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+<class Breakfast>
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  class Bacon {
+    eat() {
+      print "Eating bacon!";
+    }
+  }
+
+  Bacon().eat();
+  Bacon().eat();
+  Bacon().eat();
+  
+### TOKENS ###
+[keyword(class), ident(Bacon), token('{'), ident(eat), token('('), token(')'), token('{'), keyword(print), literal(string, "Eating bacon!"), token(';'), token('}'), token('}'), ident(Bacon), token('('), token(')'), dot, ident(eat), token('('), token(')'), token(';'), ident(Bacon), token('('), token(')'), dot, ident(eat), token('('), token(')'), token(';'), ident(Bacon), token('('), token(')'), dot, ident(eat), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Bacon (nil) (methods (proc eat () (block (print "Eating bacon!"))))) (call (dot (call (ident Bacon)) eat)) (call (dot (call (ident Bacon)) eat)) (call (dot (call (ident Bacon)) eat)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"Eating bacon!"
+"Eating bacon!"
+"Eating bacon!"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  class Foo {
+    init() {
+      print this;
+    }
+  }
+
+  var foo = Foo();
+
+### TOKENS ###
+[keyword(class), ident(Foo), token('{'), ident(init), token('('), token(')'), token('{'), keyword(print), keyword(this), token(';'), token('}'), token('}'), keyword(var), ident(foo), token('='), ident(Foo), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Foo (nil) (methods (proc init () (block (print (this)))))) (var foo (call (ident Foo))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+Foo {}
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  class Foo {
+    init(name) {
+      this.name = name;
+    }
+
+    sayHi() {
+      print "Hi, " & this.name & "!";
+    }
+  }
+
+  var foo = Foo("John");
+  foo.sayHi();
+
+### TOKENS ###
+[keyword(class), ident(Foo), token('{'), ident(init), token('('), ident(name), token(')'), token('{'), keyword(this), dot, ident(name), token('='), ident(name), token(';'), token('}'), ident(sayHi), token('('), token(')'), token('{'), keyword(print), literal(string, "Hi, "), binary(&), keyword(this), dot, ident(name), binary(&), literal(string, "!"), token(';'), token('}'), token('}'), keyword(var), ident(foo), token('='), ident(Foo), token('('), literal(string, "John"), token(')'), token(';'), ident(foo), dot, ident(sayHi), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Foo (nil) (methods (proc init (name) (block (dot-asgn (this) name (ident name)))) (proc sayHi () (block (print (& (& "Hi, " (dot (this) name)) "!")))))) (var foo (call (ident Foo) "John")) (call (dot (ident foo) sayHi)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"Hi, John!"
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+  class Foo {
+    init() {
+      return ":D";
+    }
+  }
+
+### TOKENS ###
+[keyword(class), ident(Foo), token('{'), ident(init), token('('), token(')'), token('{'), keyword(return), literal(string, ":D"), token(';'), token('}'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Foo (nil) (methods (proc init () (block (return ":D"))))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER ERROR ###
+Cannot return a value from this context
+--------------------------------
+### CODE ###
+  class BostonCream < Doughnut {
+  }
+  
+### TOKENS ###
+[keyword(class), ident(BostonCream), binary(<), ident(Doughnut), token('{'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class BostonCream (ident Doughnut) (methods)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+### EVAL ERROR ###
+(22) Undefined variable: Doughnut
+--------------------------------
+### CODE ###
+  class Oops < Oops {}
+  
+### TOKENS ###
+[keyword(class), ident(Oops), binary(<), ident(Oops), token('{'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Oops (ident Oops) (methods)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER ERROR ###
+A class cannot extend itself
+--------------------------------
+### CODE ###
+  class Doughnut {
+    cook() {
+      print "Fry until golden brown.";
+    }
+  }
+
+  class BostonCream < Doughnut {}
+
+  BostonCream().cook();
+  
+### TOKENS ###
+[keyword(class), ident(Doughnut), token('{'), ident(cook), token('('), token(')'), token('{'), keyword(print), literal(string, "Fry until golden brown."), token(';'), token('}'), token('}'), keyword(class), ident(BostonCream), binary(<), ident(Doughnut), token('{'), token('}'), ident(BostonCream), token('('), token(')'), dot, ident(cook), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Doughnut (nil) (methods (proc cook () (block (print "Fry until golden brown."))))) (class BostonCream (ident Doughnut) (methods)) (call (dot (call (ident BostonCream)) cook)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"Fry until golden brown."
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    class Doughnut {
+      cook() {
+        print "Fry until golden brown.";
+      }
+    }
+
+    class BostonCream < Doughnut {
+      cook() {
+        super.cook();
+        print "Pipe full of custard and coat with chocolate.";
+      }
+    }
+
+    BostonCream().cook();
+  
+### TOKENS ###
+[keyword(class), ident(Doughnut), token('{'), ident(cook), token('('), token(')'), token('{'), keyword(print), literal(string, "Fry until golden brown."), token(';'), token('}'), token('}'), keyword(class), ident(BostonCream), binary(<), ident(Doughnut), token('{'), ident(cook), token('('), token(')'), token('{'), keyword(super), dot, ident(cook), token('('), token(')'), token(';'), keyword(print), literal(string, "Pipe full of custard and coat with chocolate."), token(';'), token('}'), token('}'), ident(BostonCream), token('('), token(')'), dot, ident(cook), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Doughnut (nil) (methods (proc cook () (block (print "Fry until golden brown."))))) (class BostonCream (ident Doughnut) (methods (proc cook () (block (call (super cook)) (print "Pipe full of custard and coat with chocolate."))))) (call (dot (call (ident BostonCream)) cook)))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+"Fry until golden brown."
+"Pipe full of custard and coat with chocolate."
+### RESULT ###
+nil
+--------------------------------
+### CODE ###
+    super.test;
+  
+### TOKENS ###
+[keyword(super), dot, ident(test), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (super test))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER ERROR ###
+Cannot use 'super' outside of a subclass
+--------------------------------
+### CODE ###
+    class Foo {
+      init() {
+        super.test;
+      }
+    }
+  
+### TOKENS ###
+[keyword(class), ident(Foo), token('{'), ident(init), token('('), token(')'), token('{'), keyword(super), dot, ident(test), token(';'), token('}'), token('}'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Foo (nil) (methods (proc init () (block (super test))))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER ERROR ###
+Cannot use 'super' in a class that has no parent
+--------------------------------
+### CODE ###
+   // Lox language sample
+  class Calculator {
+    init() {
+      this.result = 0;
+    }
+
+    add(value) {
+      this.result = this.result + value;
+      return this;
+    }
+
+    multiply(value) {
+      this.result = this.result * value;
+      return this;
+    }
+
+    getResult() {
+      return this.result;
+    }
+  }
+
+  // Create calculator and perform operations
+  var calc = Calculator();
+  calc.add(5).multiply(2).add(10);
+  print calc.getResult(); // Prints: 20
+  
+### TOKENS ###
+[keyword(class), ident(Calculator), token('{'), ident(init), token('('), token(')'), token('{'), keyword(this), dot, ident(result), token('='), literal(integer, 0), token(';'), token('}'), ident(add), token('('), ident(value), token(')'), token('{'), keyword(this), dot, ident(result), token('='), keyword(this), dot, ident(result), binary(+), ident(value), token(';'), keyword(return), keyword(this), token(';'), token('}'), ident(multiply), token('('), ident(value), token(')'), token('{'), keyword(this), dot, ident(result), token('='), keyword(this), dot, ident(result), binary(*), ident(value), token(';'), keyword(return), keyword(this), token(';'), token('}'), ident(getResult), token('('), token(')'), token('{'), keyword(return), keyword(this), dot, ident(result), token(';'), token('}'), token('}'), keyword(var), ident(calc), token('='), ident(Calculator), token('('), token(')'), token(';'), ident(calc), dot, ident(add), token('('), literal(integer, 5), token(')'), dot, ident(multiply), token('('), literal(integer, 2), token(')'), dot, ident(add), token('('), literal(integer, 10), token(')'), token(';'), keyword(print), ident(calc), dot, ident(getResult), token('('), token(')'), token(';'), token('eof')]
+### TOKENIZER ###
+### PARSER ###
+### LISP ###
+(stmts (class Calculator (nil) (methods (proc init () (block (dot-asgn (this) result 0))) (proc add (value) (block (dot-asgn (this) result (+ (dot (this) result) (ident value))) (return (this)))) (proc multiply (value) (block (dot-asgn (this) result (* (dot (this) result) (ident value))) (return (this)))) (proc getResult () (block (return (dot (this) result)))))) (var calc (call (ident Calculator))) (call (dot (call (dot (call (dot (ident calc) add) 5) multiply) 2) add) 10) (print (call (dot (ident calc) getResult))))
+### PARSER ERRORS ###
+@[]
+### RESOLVER ###
+### RESOLVER WARNINGS ###
+@[]
+### EVAL ###
+20
+### RESULT ###
+nil
+--------------------------------
