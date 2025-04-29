@@ -204,7 +204,11 @@ print clock() - time0;
 	};
 
 	const loxwasm = document.createElement('script');
-	loxwasm.src = '/loxwasm.js';
+	if (import.meta.env.DEV) {
+		loxwasm.src = '/loxwasm.js';
+	} else {
+		loxwasm.src = '/loxinterpreter/loxwasm.js';
+	}
 	document.head.appendChild(loxwasm);
 </script>
 
