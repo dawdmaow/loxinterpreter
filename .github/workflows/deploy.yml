@@ -18,9 +18,11 @@ jobs:
           cache: npm
 
       - name: Install dependencies
+        working-directory: ./svelte
         run: npm install
 
       - name: build
+        working-directory: ./svelte
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
         run: |
@@ -29,7 +31,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'build/'
+          path: 'svelte/build/'
 
   deploy:
     needs: build_site
