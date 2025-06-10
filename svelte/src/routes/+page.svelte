@@ -162,6 +162,10 @@ class Calculator < Breakfast {
   }
 }
 
+for (var i = 1; i <= 5; i = i + 1) {
+	print i;
+}
+
 var time0 = clock();
 var calc = Calculator();
 calc.add(5).multiply(2).add(10);
