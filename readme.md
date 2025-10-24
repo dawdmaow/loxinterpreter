@@ -1,33 +1,36 @@
 # NimLang Interpreter
 
 A dynamic language interpreter with C-like syntax, built using the tree-walking approach. Features web integration through WebAssembly.
+Based on Chapter II of "Crafting Interpreters" by Robert Nystrom
 
-> 📚 **Inspired by**: Chapter II of "Crafting Interpreters" by Robert Nystrom
-
-## Online
+## Online editor
 
 https://dawdmaow.github.io/loxinterpreter/
 
-## ✨ Features
+## Features
 
-- **Multi-target compilation**: Native C, JavaScript, and WebAssembly
-- **Interactive web interface** powered by Svelte
+- **Multi-target compilation**: C, JavaScript, and WebAssembly
+- **Interactive web interface**
 - **Object-oriented programming** with classes and inheritance
 - **Control flow** with conditionals, loops, and functions
 - **Dynamic typing** with runtime error handling
 
-## 🚀 Quick Start
+- Variables and expressions
+- Functions with closures
+- Classes with methods and inheritance
+- Control flow (if/else, while loops)
+- Built-in functions like `clock()`
 
-### Prerequisites
+## Prerequisites
 - Nim >= 2.2.2
 - Node.js (for web interface)
 
-### Installation
+## Installation
 ```bash
 nimble install
 ```
 
-### Usage
+## Usage
 
 **Run tests:**
 ```bash
@@ -39,17 +42,3 @@ nimble test
 nimble wasmRelease
 ```
 
-## 📝 Language Features
-
-- Variables and expressions
-- Functions with closures
-- Classes with methods and inheritance
-- Control flow (if/else, while loops)
-- Built-in functions like `clock()`
-
-## 🏗️ Project Structure
-
-- `src/` - Core interpreter implementation
-- `svelte/` - Web frontend
-- `tests/` - Test files
-- `dist/` - Compiled outputs
