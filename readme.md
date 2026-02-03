@@ -1,4 +1,4 @@
-# NimLang Interpreter
+# Lox Interpreter
 
 A dynamic language interpreter with C-like syntax, built using the tree-walking approach. Features web integration through WebAssembly.
 Based on Chapter II of "Crafting Interpreters" by Robert Nystrom
